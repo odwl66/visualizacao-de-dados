@@ -7,6 +7,8 @@ output: html_document
 library(stringr)
 library(dplyr)
 library(lubridate)
+library(ggplot2)
+library(GGally)
 ```
 
 Perguntas criadas:
@@ -21,7 +23,7 @@ Perguntas criadas:
 data <- read.csv("pessoas-aleatorias-digitando-coisas-aleatorias-report.csv")
 ```
 
-Vamos selecionar a pergunta 1 para responder.
+Vamos selecionar a pergunta 1ª para responder.
 
 Primeiro vamos ver quais as ocorrências de cada letra do alfabeto:
 
@@ -70,7 +72,7 @@ data.letters.occurence <- data.letters.occurence %>%
 summary(data.letters.occurence$diferenca.tempo)
 ```
 
-A mediana de tempo de resposta foi de 2,5 minutos
+A mediana de tempo de resposta foi de cerca de 2,5 minutos.
 
 Agora vamos ver quanto cada região do teclado foi utilizada:
 
@@ -84,5 +86,68 @@ data.letters.occurence <- data.letters.occurence %>%
   )
 ```
 
-Agora vamos calcular o desvio padrão:
+Agora vamos calcular o desvio padrão das regiões de cada usuário:
+
+```{r}
+data.letters.occurence$sd.regioes <- apply(
+    select(data.letters.occurence, regiao1, regiao2, regiao3, regiao4), 
+    1, 
+    sd, 
+    na.rm = TRUE
+  )
+```
+
+Agora vamos responder a pergunta:
+
+- Quanto menor o tempo que o usuário passou no formulário, mais aleatório ele acha que foi? E qual a região do teclado mais utilizada por essa pessoa?
+
+```{r}
+ggplot(data.letters.occurence, aes(x = diferenca.tempo, y = quão.aleatório.você.acha.que.foi.)) +
+  geom_point(aes(colour = sd.regioes))
+```
+
+Para fins de visualização, vamos remover os que levaram mais de 500 segundos para responder o formulário:
+
+```{r}
+data.letters.occurence.filtered <- data.letters.occurence %>%
+  filter(diferenca.tempo < 500)
+
+ggplot(data.letters.occurence.filtered, aes(x = diferenca.tempo, y = quão.aleatório.você.acha.que.foi.)) +
+  geom_point(aes(colour = sd.regioes))
+```
+
+Como ficou difícil ver as diferenças de cores, vamos fazer um espalhamento dos pontos, para ter uma maior visibilidade:
+
+```{r}
+ggplot(data.letters.occurence.filtered, aes(x = diferenca.tempo, y = quão.aleatório.você.acha.que.foi.)) +
+  geom_point(aes(colour = sd.regioes)) +
+  geom_jitter()
+```
+
+Não parece existir uma tendência entre as variáveis "quão aleatório você acha que foi", "tempo que o usuário levou para preencher o formulário" e "desvio padrão das regiões do teclado".
+
+Podemos verificar isso com as correlações:
+
+```{r}
+cor(data.letters.occurence$quão.aleatório.você.acha.que.foi., data.letters.occurence$diferenca.tempo)
+cor(data.letters.occurence$quão.aleatório.você.acha.que.foi., data.letters.occurence$sd.regioes)
+cor(data.letters.occurence$diferenca.tempo, data.letters.occurence$sd.regioes)
+```
+
+Onde nenhuma combinação tem uma correlação significativa.
+
+Apenas a nível de curiosidade, vamos ver se existe alguma relação entre as variáveis:
+
+```{r}
+ggpairs(select(data.letters.occurence, um.esquente..digite.um.número.de.0.a.9, quão.aleatório.você.acha.que.foi., quão.aleatório.você.acha.que.você.é., diferenca.tempo, regiao1, regiao2, regiao3, regiao4, sd.regioes))
+```
+
+Podemos verificar que existe uma alta correlação entre a região 4 do teclado e o desvio padrão das regiões, ou seja, quanto mais a pessoa digita nesta região, mais variação entre as regiões do teclado ela produziu, o que é um pouco surpreendente.
+
+A visualização que será feita no d3, será parecida com esta:
+
+![alt text](d3-scatterplot.png)
+
+Que pode ser encontrada neste [link](http://bl.ocks.org/mbostock/3887118)
+
 
