@@ -16,66 +16,61 @@ var line = d3.line()
     .y(function(d) { return y(d.quantidade); });
 
 d3.csv("saida4.csv", function(error, data) {
-  if (error) throw error;
+    if (error) throw error;
 
-  console.log(data);
+    console.log(data);
 
-  cities = data.columns.slice(1).map(function(id) {
-    return {
-      id: id,
-      values: data.map(function(d) {
-        return {numero: +d.Numero, quantidade: +d[id]};
-      })
-    };
-  });
+    cities = data.columns.slice(1).map(function(id) {
+        return {
+            id: id,
+            values: data.map(function(d) {
+                return {numero: +d.Numero, quantidade: +d[id]};
+            })
+        };
+    });
 
-  console.log(cities);
+    console.log(cities);
 
-  x.domain(d3.extent(data, function(d) { return d.numero; }));
+    x.domain(d3.extent(data, function(d) { return d.Numero; }));
 
-  y.domain([
-    0,
-    d3.max(cities, function(c) { return d3.max(c.values, function(d) { return d.quantidade; }); })
-  ]);
+    y.domain([
+        0,
+        d3.max(cities, function(c) { return d3.max(c.values, function(d) { return d.quantidade; }); })
+    ]);
 
-  z.domain(cities.map(function(c) { return c.id; }));
+    z.domain(cities.map(function(c) { return c.id; }));
 
-  g.append("g")
-      .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x));
+    g.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
 
-  g.append("g")
-      .attr("class", "axis axis--y")
-      .call(d3.axisLeft(y))
-    .append("text")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("fill", "#000")
-      .text("Temperature, ºF");
+    g.append("g")
+        .attr("class", "axis axis--y")
+        .call(d3.axisLeft(y))
+        .append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 6)
+        .attr("dy", "0.71em")
+        .attr("fill", "#000")
+        .text("Temperature, ºF");
 
-  var city = g.selectAll(".city")
-    .data(cities)
-    .enter().append("g")
-      .attr("class", "city");
+    var city = g.selectAll(".city")
+        .data(cities)
+        .enter().append("g")
+        .attr("class", "city");
 
-  city.append("path")
-      .attr("class", "line")
-      .attr("d", function(d) { return line(d.values.quantidade); })
-      .style("stroke", function(d) { return z(d.id); });
+    city.append("path")
+        .attr("class", "line")
+        .attr("d", function(d) { return line(d.values); })
+        .style("stroke", function(d) { return z(d.id); });
 
-  city.append("text")
-      .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
-      .attr("transform", function(d) { return "translate(" + x(d.value.numero) + "," + y(d.value.quantidade) + ")"; })
-      .attr("x", 3)
-      .attr("dy", "0.35em")
-      .style("font", "10px sans-serif")
-      .text(function(d) { return d.id; });
+    city.append("text")
+        .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+        .attr("transform", function(d) { return "translate(" + x(d.value.numero) + "," + y(d.value.quantidade) + ")"; })
+        .attr("x", 3)
+        .attr("dy", "0.35em")
+        .style("font", "10px sans-serif")
+        .text(function(d) { return d.id; });
 });
 
-/*function type(d, _, columns) {
-  d.date = parseTime(d.date);
-  for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
-  return d;
-}*/
