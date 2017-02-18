@@ -47,7 +47,12 @@ d3.csv("saida4.csv", function(error, data) {
     g.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x))
+        .append("text")
+        .attr("dx", width - margin.bottom)
+        .attr("dy", "-0.71em")
+        .attr("fill", "#000")
+        .text("Quantidade");
 
     g.append("g")
         .attr("class", "axis axis--y")
@@ -57,7 +62,7 @@ d3.csv("saida4.csv", function(error, data) {
         .attr("y", 6)
         .attr("dy", "0.71em")
         .attr("fill", "#000")
-        .text("Temperature, ºF");
+        .text("Quantidade");
 
     var city = g.selectAll(".city")
         .data(cities)
