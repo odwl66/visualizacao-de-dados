@@ -5,7 +5,7 @@ var svg = d3.select("#chart")
     .append("svg")
     .attr('version', '1.1')
     .attr('viewBox', '0 0 '+width+' '+height)
-    .attr('width', '50%')
+    .attr('width', '60%')
     .attr('class', 'map-chart');
 
 var projection = d3.geoAlbers()
@@ -59,7 +59,7 @@ function draw(error, sab, sab_dados, brasil, dadosPopulacao) {
         .enter().append("path")
         .attr("id", function(d) { return "br-"+d.properties.codigo_ibg; })
         .attr("d", path)
-        .attr("fill", "#9fa3a8");
+        .attr("fill", "#c9c9c9");
 
     svg.selectAll(".municipios")
         .data(municipios.features)
@@ -95,7 +95,7 @@ function draw(error, sab, sab_dados, brasil, dadosPopulacao) {
             return false;
         }))
         .enter().append("circle", ".pin")
-        .attr("r", 3)
+        .attr("r", 2)
         .attr("transform", function(d) {
             var location = path.centroid(d);
             return "translate(" + parseInt(location[0]) + "," + parseInt(location[1]) + ")";
