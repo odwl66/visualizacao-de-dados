@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>about - Space Science Website Template</title>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="space-science/upload/css/style.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="space-science/upload/css/mobile.css">
 
@@ -20,7 +21,7 @@
         }
         .line {
             fill: none;
-            stroke: steelblue;
+            stroke: white;
             stroke-width: 1.5px;
         }
         div.tooltip {
@@ -36,33 +37,66 @@
             pointer-events: none;
         }
     </style>
+
+
 </head>
 <body>
 <div id="page">
     <div id="body" class="about">
         <div class="header" style="background: url(img/random.jpg) repeat;">
             <div>
-                <h1>Dados do semi-árido brasileiro</h1>
-                <p>Neste laboratório foi proposto que contruíssemos uma visualização espacial, na qual devemos mostrar três informações sobre as cidades do semi-árido brasileiro</p>
+                <h1>Dados dos cursos da UFCG</h1>
+                <p>Neste laboratório foi proposto que contruíssemos uma visualização de redes (grafo), na qual devemos
+                    comaparar estruturas de pré-requisitos de diferentes cursos da ufcg</p>
             </div>
         </div>
         <div class="body">
             <div>
                 <h2>Explicação</h2>
-                <p>Na seção seguinte é mostrada a visualização proposta, onde cada cidade tem uma cor, que representa a população da mesma. Quanto mais escuro, maior o número da população</p>
-                <p>Existem 1135 cidades no semi-árido, das quais estão destacadas em verde as 50 cidades que mais produzem água.</p>
-                <p>Estão destacadas em vermelho as 50 cidades que mais consomem água por habitante.</p>
-
+                <p>Na seção seguinte existem dois cursos que poderemos selecionar para comparar.</p>
+                <p>Cada nó representa uma disciplina, onde estas disciplinas estão ligadas quando existe uma dependência
+                entre elas, ou seja, uma é pré-requisito da outra.</p>
+                <p>As cores de cada nó são relativas ao departamento a que esta pertence.</p>
+                <p>De modo a facilitar a visualização da estrutura do curso foi adicionado um nó inicial, o início do
+                curso, para agrupar as disciplinas que não têm pré-requisito. Este nó pode ser encontrado facilmente,
+                pois é o maior de todos.</p>
             </div>
         </div>
         <div class="section">
-            <div>
-                <div id="chart"></div>
-                <p>Das 50 cidades que mais produzem água, 11 são as que mais gastam por habitante,
-                    o que pode indicar uma falta de consciência da população.</p>
-                <p>É possível perceber que as cidades que tem maior produção de água, estão bem distribuídas em todo território destacado.</p>
-                <p>Na região da Bahia, perto da divisa com Sergipe, é notório uma grande concentração de cidades que consomem grande quantidade
-                    de água por habitante, além de que nenhuma destas cidades fazem parte do conjunto das cidades que mais produz água.</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-group center">
+                        <div class="dropdown">
+                            <button id="dropdown1" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                engenharia_eletrica_cg
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="options1" class="dropdown-menu">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="chart1" style="background-color: whitesmoke"></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group center">
+                        <div class="dropdown">
+                            <button id="dropdown2" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                ciencia_da_computacao_d_cg
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="options2" class="dropdown-menu">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="chart2" style="background-color: whitesmoke"></div>
+                </div>
+
+                <p>Podemos ver que algumas disciplinas de final de curso se destacam, estando mais distante do nó
+                    inicial. Em computação, os nós que mais se destacam são: IRC, LIRC, ADSD, P2 e BD2.</p>
+                <p>Podemos ver também os ramos distintos que o curso abrange, bastante perceptível em
+                    administracao_d_cg.</p>
             </div>
         </div>
     </div>
@@ -86,59 +120,11 @@
     </div>
 </div>
 
-<script src="//d3js.org/d3.v4.min.js"></script>
-<script src="js/improved-vis.js"></script>
-</body>
-</html>
-
-</div>
-</div>
-</div>
-<div id="footer">
-    <div class="connect">
-        <div>
-            <h1>FOLLOW OUR  MISSIONS ON</h1>
-            <div>
-                <a href="http://freewebsitetemplates.com/go/facebook/" class="facebook">facebook</a>
-                <a href="http://freewebsitetemplates.com/go/twitter/" class="twitter">twitter</a>
-                <a href="http://freewebsitetemplates.com/go/googleplus/" class="googleplus">googleplus</a>
-                <a href="http://freewebsitetemplates.com/go/pinterest/" class="pinterest">pinterest</a>
-            </div>
-        </div>
-    </div>
-    <div class="footnote">
-        <div>
-            <p>&copy; 2023 BY SPACE PROSPECTION | ALL RIGHTS RESERVED</p>
-        </div>
-    </div>
-</div>
-</div>
-
-
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script src="js/d3.v4.min.js"></script>
 <script src="//d3js.org/d3-color.v1.min.js"></script>
 <script src="//d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="//d3js.org/topojson.v1.min.js"></script>
-<script src="js/map-chart.js"></script>
+<script src="js/node-link-chart.js"></script>
 </body>
-
 </html>
-
-<!DOCTYPE html>
-<meta charset="utf-8">
-<style>
-
-.links line {
-  stroke: #999;
-  stroke-opacity: 0.6;
-}
-
-.nodes circle {
-  stroke: #fff;
-  stroke-width: 1.5px;
-}
-
-</style>
-<svg width="960" height="600"></svg>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="js/index.js"></script>
