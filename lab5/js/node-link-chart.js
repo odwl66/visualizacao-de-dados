@@ -45,7 +45,7 @@ function draw(curso, chart) {
         .force("charge", d3.forceManyBody().strength(-20))
         .force("center", d3.forceCenter(width / 2, height / 2));
 
-    d3.json("http://analytics.lsd.ufcg.edu.br/pre/" + curso + "/disciplinas", function (error, apiresponse) {
+    d3.json("dados_disciplinas/" + curso + ".json", function (error, apiresponse) {
         if (error) throw error;
 
         var links = [],
