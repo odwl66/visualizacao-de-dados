@@ -48,7 +48,7 @@ function draw(error, sab, sab_dados, brasil, dadosPopulacao) {
 
     populacaoScale
         .domain(d3.extent(dadosPopulacao.map(function(d) { return +d.populacao_total })))
-        .range(["white", "blue"]);
+        .range(["white", "#3182bd"]);
 
     /*demandaScale
         .domain([d3.min(dadosPopulacao, function(d) { return +d.demanda }), d3.max(dadosPopulacao, function(d) { return +d.demanda })])
@@ -83,7 +83,7 @@ function draw(error, sab, sab_dados, brasil, dadosPopulacao) {
             var location = path.centroid(d);
             return "translate(" + parseInt(location[0]) + "," + parseInt(location[1]) + ")";
         })
-        .attr("fill", "green");
+        .attr("fill", "#d95f02");
 
     svg.selectAll(".pin")
         .data(municipios.features.filter(function(d){
@@ -100,7 +100,7 @@ function draw(error, sab, sab_dados, brasil, dadosPopulacao) {
             var location = path.centroid(d);
             return "translate(" + parseInt(location[0]) + "," + parseInt(location[1]) + ")";
         })
-        .attr("fill", "red");
+        .attr("fill", "#1b9e77");
 
     for (var i = 0; i < dadosPopulacao.length; i++) {
         svg.select("#sab-"+dadosPopulacao[i].cod_municipio)
